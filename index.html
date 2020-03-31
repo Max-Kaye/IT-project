@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Timesheets!</title>
+        <style>
+            div {
+                color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="message">Hello guys!</div>
+        <button onclick="asdf()">Click me!</button>
+
+        <script>
+            function asdf() {
+                var myMessage = document.getElementById("message");
+                myMessage.innerHTML = "it is " + new Date().getTime();
+            }
+        </script>
+
+    </body>
+</html>
