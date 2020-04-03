@@ -2,10 +2,17 @@ version: '3'
 services:
   mysql:
     image: "mysql:8.0.19"
-    container_name: "mysql"
+    container_name: "itp-mysql"
     ports:
       - "40001:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "secret"
     volumes:
       - /w/IT-project/mysqldata:/var/lib/mysql:rw
+  mysql:
+    image: "itp-app"
+    container_name: "itp-app"
+    ports:
+      - "40002:8080"
+    environment:
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"

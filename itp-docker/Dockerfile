@@ -1,5 +1,5 @@
 # taken from https://hub.docker.com/_/python
-# build with:
+# build with, from the project root folder:
 #            docker build -f itp-docker/Dockerfile -t itp-app .
 #
 FROM python:2.7.17-buster
