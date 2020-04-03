@@ -1,5 +1,9 @@
 # IT-project
 
+## GitHub Build
+
+![Python application](https://github.com/Max-Kaye/IT-project/workflows/Python%20application/badge.svg)
+
 ## Background
 
 - uses Python 2.7 because of students using Windows XP
