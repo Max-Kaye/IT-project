@@ -9,6 +9,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY web web
+COPY sql sql
+COPY app app
 
-CMD [ "python", "./main.py" ]
+CMD [ "python", "./app/main.py" ]
