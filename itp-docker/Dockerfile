@@ -13,4 +13,6 @@ COPY web web
 COPY sql sql
 COPY app app
 
+EXPOSE 8080
+
 CMD [ "python", "./app/main.py" ]
