@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mysql:
+  itp-mysql:
     image: "mysql:8.0.19"
     container_name: "itp-mysql"
     ports:
@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: "secret"
     volumes:
       - /w/IT-project/mysqldata:/var/lib/mysql:rw
-  mysql:
+  itp-app:
     image: "itp-app"
     container_name: "itp-app"
     ports:
