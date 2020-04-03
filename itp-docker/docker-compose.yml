@@ -4,7 +4,7 @@ services:
     image: "mysql:8.0.19"
     container_name: "mysql"
     ports:
-      - "40000:3306"
+      - "40001:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "secret"
     volumes:
