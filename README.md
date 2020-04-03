@@ -30,6 +30,6 @@ Then point your browser to http://localhost:8080/
 
 ## Deploy
 
-Using docker-compose - see (here)[./tree/master/itp-docker]
+Using docker-compose - see [here](itp-docker/README.md)
 
 Then go to https://timesheets.maxant.ch
