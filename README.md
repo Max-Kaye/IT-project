@@ -28,3 +28,8 @@ Set the environment variables MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT
 
 Then point your browser to http://localhost:8080/
 
+## Deploy
+
+Using docker-compose - see (here)[./tree/master/itp-docker]
+
+Then go to https://timesheets.maxant.ch
