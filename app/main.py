@@ -1,6 +1,12 @@
 from flask import Flask
-from ch.maxant.itproject.data.user import User
 from ch.maxant.itproject.util import json
+from ch.maxant.itproject.user_service import UserService
+from ch.maxant.itproject.data.user_repository import UserRepository
+
+
+# setup services
+userRepo = UserRepository()
+userService = UserService(userRepo)
 
 # here we create an object called app which has the class "Flask".
 # Flask is a "framework", or "library" used to build a web server
@@ -16,7 +22,7 @@ app = Flask(__name__,
 # the browser knows how to read JSON and the JavaScript will use it to make an object which we can use to read the name
 @app.route('/users/<id>', methods=['GET'])
 def send_json(id):
-    u = User(id, "Ant")  # this line creates a new User object and calls it "u"
+    u = userService.get_user(id)
     return json(u)  # and this line turns it into JSON and returns it to the browser
 
 

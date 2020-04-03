@@ -11,9 +11,20 @@ Open the firewall:
 Startup the services:
 
     # go into docker folder in this project (ie here)
-    docker-compose up &
+    docker-compose up -d
 
-Create the database:
+Create the database and change the password, and create a temporary table for testing:
 
     docker run -it --rm mysql mysql -h maxant.ch --port 40001 -u root -p -e "CREATE DATABASE timesheets CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
     docker run -it --rm mysql mysql -h maxant.ch --port 40001 -u root -p
+
+    ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+    ALTER USER 'root'@'%' IDENTIFIED BY 'new_password';
+    FLUSH PRIVILEGES;
+
+    create table temp (id integer auto_increment, name varchar(100), primary key (id) );
+    insert into temp values (null, 'Ant');
+    select * from temp;
+
+    exit;
+
