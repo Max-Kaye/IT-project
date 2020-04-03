@@ -2,7 +2,7 @@
 # build with:
 #            docker build -t itp-app .
 #
-FROM 2.7.17-buster
+FROM python:2.7.17-buster
 
 WORKDIR /usr/src/app
 
