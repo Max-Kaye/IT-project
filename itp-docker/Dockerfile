@@ -9,10 +9,13 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY web web
-COPY sql sql
-COPY app app
-
 EXPOSE 8080
 
+# last, so that the build doesnt keep having to do stuff that never changes
+COPY sql sql
+COPY app app
+COPY web web
+
 CMD [ "python", "./app/main.py" ]
+
+

@@ -28,3 +28,9 @@ Create the database and change the password, and create a temporary table for te
 
     exit;
 
+Set the password into the environment permanently so that continuous deployment works.
+
+    echo "MYSQL_PASSWORD=<the password>" >> /etc/environment
+
+logout/login for that to take effect.
+

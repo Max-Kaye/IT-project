@@ -1,3 +1,4 @@
+watch_for_dodeploy.log
 watch_for_dodeploy.pid
 mysqldata
 .idea
