@@ -43,6 +43,9 @@ In order to automatically deploy when Jenkins touches the `dodeploy_itp.txt` fil
 
      chmod +x watch_for_dodeploy.sh
      nohup ./watch_for_dodeploy.sh > /dev/null 2>&1 &
+     
+Or to be able to see logs:
+     
      nohup ./watch_for_dodeploy.sh > watch_for_dodeploy.log 2>&1 &
 
 It writes it's process ID to  `dodeploy_itp.pid`. Ideally you'd install this script as a service.
