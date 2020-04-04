@@ -49,4 +49,3 @@ Or to be able to see logs:
      nohup ./watch_for_dodeploy.sh > watch_for_dodeploy.log 2>&1 &
 
 It writes it's process ID to  `dodeploy_itp.pid`. Ideally you'd install this script as a service.
-
