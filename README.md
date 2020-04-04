@@ -30,6 +30,19 @@ Then point your browser to http://localhost:8080/
 
 ## Deploy
 
-Using docker-compose - see [here](itp-docker/README.md)
+Uses docker-compose - see [here](itp-docker/README.md)
+
+    chmod +x deploy.sh
+    ./deploy.sh
 
 Then go to https://timesheets.maxant.ch
+
+# Continuous Deployment
+ 
+In order to automatically deploy when Jenkins touches the `dodeploy_itp.txt` file in it's home folder, run the script:
+ 
+     chmod +x watch_for_dodeploy.sh
+     ./watch_for_dodeploy.sh &
+     
+It writes it's process ID to  `dodeploy_itp.pid`. Ideally you'd install this script as a service.
+
