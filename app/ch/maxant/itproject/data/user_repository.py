@@ -54,5 +54,5 @@ class UserRepository:
 
         print("Fetched name '{}' for user with id {} in {} ".format(name, id, time_taken))
 
-        u = User(id, "Pierre")
+        u = User(id, name)
         return u
