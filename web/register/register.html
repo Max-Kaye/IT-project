@@ -1,0 +1,106 @@
+<html>
+<head>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lfn3eYUAAAAAH0fYbPP1Xg9utzPLS5Nrb1vKiYo"></script>
+    <script>
+    grecaptcha.ready(function() {
+
+        exec('register_init');
+
+    });
+
+    function exec(action, model) {
+        return new Promise((resolve, reject) => {
+            grecaptcha.execute('6Lfn3eYUAAAAAH0fYbPP1Xg9utzPLS5Nrb1vKiYo', {action: action}).then(function(token) {
+               console.log('recaptcha token ' + token);
+
+                // verify with the backend
+               let config = {method: 'POST',
+                             headers: {'Content-Type': 'application/json'},
+                             body: JSON.stringify({recaptchaToken: token, registrationModel: model})
+                            };
+               fetch('/register?action=' + action, config).then(r=>r.json()).then(result => {
+                   console.log(action + " result: " + JSON.stringify(result));
+                   resolve(result);
+               })
+            });
+        });
+    }
+
+    let model = {};
+
+    function transition1() {
+        document.getElementById("screen1").style.display = 'none';
+        document.getElementById("screen2").style.display = 'none';
+        document.getElementById("screen3").style.display = 'none';
+        document.getElementById("loading").style.display = 'block';
+        model.a = document.getElementById("a").value;
+        exec('register_step1', model)
+        .finally(() => {
+            document.getElementById("screen1").style.display = 'none';
+            document.getElementById("screen2").style.display = 'block';
+            document.getElementById("screen3").style.display = 'none';
+            document.getElementById("loading").style.display = 'none';
+        });
+    }
+
+    function transition2() {
+        document.getElementById("screen1").style.display = 'none';
+        document.getElementById("screen2").style.display = 'none';
+        document.getElementById("screen3").style.display = 'none';
+        document.getElementById("loading").style.display = 'block';
+        model.b = document.getElementById("b").value;
+        exec('register_step2', model)
+        .then(result => {
+            document.getElementById("screen3").innerHTML = 'Thanks. Your score was: ' + result.score;
+        }).finally(() => {
+            document.getElementById("screen1").style.display = 'none';
+            document.getElementById("screen2").style.display = 'none';
+            document.getElementById("screen3").style.display = 'block';
+            document.getElementById("loading").style.display = 'none';
+        });
+    }
+
+    // the following script doesnt give a score lower than 0.9! even though we are manipulating the server and say
+    // booking lots of holidays. so additional checks are required!
+    // see also https://www.scorpiones.io/articles/the-difference-between-recaptcha-v2-and-v3 => maybe recaptcha2 is more useful?
+    function thisIsAnInjectedHackerScript() {
+        for(var i = 0; i < 50; i++) {
+            exec('register_step2', {a: 'a', b: 'b'})
+            .then(result => {
+                console.log("executed " + i);
+            });
+        }
+    }
+
+    </script>
+</head>
+<body>
+<div id="screen1">
+    <table>
+        <tr>
+            <td>a</td>
+            <td><input id="a"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="transition1()">next</button></td>
+        </tr>
+    </table>
+</div>
+<div id="screen2" style="display: none;">
+    <table>
+        <tr>
+            <td>b</td>
+            <td><input id="b"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="transition2()">submit</button></td>
+        </tr>
+    </table>
+</div>
+<div id="screen3" style="display: none;">
+</div>
+<div id="loading" style="display: none;">
+    loading...
+</div>
+</body>
+</html>

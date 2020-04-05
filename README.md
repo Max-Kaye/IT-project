@@ -14,6 +14,9 @@
 
 (stores stuff in `/usr/local/lib/python2.7/dist-packages` on Linux)
 
+Note that `requirements.txt` can be generated using `pip freeze` => copy all of it into `requirements.txt`, or just the 
+stuff that is explicitly installed (not quite as robust).
+
 ## Test
 
     export MYSQL_PASSWORD=<the password>
