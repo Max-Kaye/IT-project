@@ -48,7 +48,7 @@ class UserRepository:
 
         myresult = mycursor.fetchone()  # and get the result from the database
 
-        name = myresult[1]
+        name = myresult[1] + "K"
 
         time_taken = datetime.datetime.now() - start
 
