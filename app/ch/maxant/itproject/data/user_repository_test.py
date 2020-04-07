@@ -8,7 +8,7 @@ class TestStringMethods(unittest.TestCase):
     def test_get_user(self):
         u = UserRepository.get_user(1)
         self.assertEqual(u.id, 1)
-        self.assertEqual(u.name, 'Ant')
+        self.assertEqual(u.name, 'AntKK')
 
     ####################################################################################################################
     # below here are some examples:
