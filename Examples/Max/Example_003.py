@@ -4,9 +4,11 @@ start = datetime.datetime.now()
 
 print "x|y"
 print "==="
-
-xs = range(1, 1000001)
-for x in xs:
+x = 0
+while True:
+    x = x + 1
+    if x == 3:
+        continue
     y = x * x + 3
     table = "{}|{}".format(x, y)
     print table
@@ -14,5 +16,3 @@ for x in xs:
 time_taken = datetime.datetime.now() - start
 
 print("calculated results in:{}".format(time_taken))
-
-# fastest time: 3.996 Seconds
