@@ -2,10 +2,10 @@ import unittest
 
 
 # https://en.wikipedia.org/wiki/Fibonacci_number
-def calculateFibonacci(first_number=1, second_number=1, size_of_output=3):
+def calculatefibonacci(first_number=1, second_number=1, size_of_output=3):
     output = []
 
-    # fix me!
+    def max_range(minimum, maximum):
 
     return output
 
