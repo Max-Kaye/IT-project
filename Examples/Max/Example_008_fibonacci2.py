@@ -1,5 +1,5 @@
 import unittest
-
+import sys
 
 # https://en.wikipedia.org/wiki/Fibonacci_number
 def calculatefibonacci(first_number, second_number, size_of_output):
@@ -13,11 +13,15 @@ def calculatefibonacci(first_number, second_number, size_of_output):
     return output
 
 
-answer = calculatefibonacci(2, 3, 5)
+input1 = input("enter your first number: ")
+input2 = input("enter your second number: ")
+input3 = input("enter how many results you want: ")
+if input3 <= 2:
+    sys.exit("that is unacceptable")
 
-if answer.__len__() != 5:
-    print "failed"
-elif answer != [2, 3, 5, 8, 13]:
+answer = calculatefibonacci(input1, input2, input3)
+print answer
+if answer.__len__() != input3:
     print "failed"
 else:
     print "all good!"
