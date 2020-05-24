@@ -12,7 +12,7 @@
 
     pip install -r requirements.txt
 
-(stores stuff in `/usr/local/lib/python2.7/dist-packages` on Linux)
+(stores stuff in `/usr/local/lib/python2.7/dist-packages` or `/home/ant/.local/lib/python3.8/site-packages/` on Linux)
 
 Note that `requirements.txt` can be generated using `pip freeze` => copy all of it into `requirements.txt`, or just the 
 stuff that is explicitly installed (not quite as robust).
