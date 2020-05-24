@@ -19,6 +19,6 @@ if input3<=2:
     sys.exit("You need a minimum of 3 results")
 answer = calculatefibonacci(input1, input2,input3)
 if answer.__len__() != input3:
-    print "failed"
+    print ("failed")
 else:
-    print "!!!SUPER MEGA CALCULATION HAS BEEN TERMINATIONATED!!!"
+    print ("!!!SUPER MEGA CALCULATION HAS BEEN TERMINATIONATED!!!")
