@@ -1,4 +1,5 @@
 import unittest
+import unittest
 import sys
 from termcolor import colored, cprint
 
@@ -12,13 +13,13 @@ def calculatefibonacci(first_number, second_number, size_of_output):
         second_number=third_number
         cprint (str(third_number), "green")
     return output
-input1=input("Enter your first number: ")
-input2=input("Enter your second number: ")
-input3=input("How many results would you like: ")
-if input3<=2:
+input1=eval(input("Enter your first number: "))
+input2=eval(input("Enter your second number: "))
+input3=eval(input("How many results would you like: "))
+if int(input3)<=2:
     sys.exit("You need a minimum of 3 results")
 answer = calculatefibonacci(input1, input2,input3)
 if answer.__len__() != input3:
-    print ("failed")
+    print("failed")
 else:
-    print ("!!!SUPER MEGA CALCULATION HAS BEEN TERMINATIONATED!!!")
+    print("Calculation has Finished")
