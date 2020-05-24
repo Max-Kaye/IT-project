@@ -30,7 +30,7 @@ async def on_message(message):
         return  # ignore messages sent by the bot
 
     words = message.content.split(" ")
-    if(words.__len__() > 0):
+    if words.__len__() > 0:
         if words[0] == '!fibo':
             first_number = 1
             second_number = 1
@@ -49,18 +49,8 @@ async def on_message(message):
             else:
                 try:
                     fibo_results = calculatefibonacci(first_number, second_number, size_of_output)
-                    number_of_messages_sent = 0
-                    for guild in client.guilds:
-                        for member in guild.members:
-                            if client.user != member: # dont sent this to the bot to bot
-                                await member.create_dm()  # creates a DM channel to the member
-                                await member.dm_channel.send(
-                                    f'Hi {member.name}, here is a fibonnaci sequence! {fibo_results}'
-                                )
-                                number_of_messages_sent = number_of_messages_sent + 1
-
                     # tell the author how many people received the message:
-                    result = "%s was sent to %s members" % (fibo_results, number_of_messages_sent)
+                    result = "Here are your results: %s" % ', '.join([str(x) for x in fibo_results])
                     await message.channel.send(result)
                     print(result)
                 except discord.errors.HTTPException as e:
