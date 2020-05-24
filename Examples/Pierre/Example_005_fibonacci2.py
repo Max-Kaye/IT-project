@@ -1,5 +1,4 @@
 import unittest
-import unittest
 import sys
 from termcolor import colored, cprint
 
