@@ -1,5 +1,4 @@
 from textwrap import indent
-
 import discord
 from discord import guild
 from discord.ext import commands, tasks
@@ -22,43 +21,8 @@ import json
 
 client = commands.Bot(command_prefix=".")
 
-"""
-def get_prefix(client, message):
-    with open("prefixes.json", "r") as f:
-        prefixes = json.load(f)
-
-    return prefixes[str(message.guild.id)]
-
-
-client = commands.Bot(command_prefix=get_prefix)
-
-
-@client.event
-async def on_guild_join(guild):
-    with open("prefixes.json", "r") as f:
-        prefixes = json.load(f)
-
-    prefixes[str(guild.id)] = "."
-
-    with open("prefixes.json", "w") as f:
-        json.dump = (prefixes, f)
-
-
-@client.event
-async def on_guild_remove(guild):
-    with open("prefixes.json", "r") as f:
-        prefixes = json.load(f)
-
-    prefixes.pop(str(guild.id))
-
-    with open("prefixes.json", "w") as f:
-        json.dump = (prefixes, f)
-
-    print(f"Opal has joined {guild}")
-"""
-
-status = cycle(["DM @PierreCam#6969 to add me to your server!", "Listening to your commands!"])
-
+status = cycle(["DM @PierreCam#6969 to add me to your server!", "Listening to your commands!",
+                "NOTE, THIS BOT IS STILL IN AN ALPHA DEVELOPEMENT STAGE."])
 
 
 @client.event
@@ -75,6 +39,7 @@ async def on_ready():
 async def status_loop():
     await client.change_presence(activity=discord.Game(next(status)))
 
+
 @client.event
 async def on_member_remove(member):
     print(f"{member} has left or been removed from a Server")
@@ -82,7 +47,11 @@ async def on_member_remove(member):
 
 @client.command()
 async def ping(ctx):
-    await ctx.send(f"The Ping is at: {round(client.latency * 1000)} ms")
+    pingembed = discord.Embed(
+        colour=discord.Colour.dark_magenta(),
+        description=f"The Ping is at: {round(client.latency * 1000)} ms",
+    )
+    await ctx.send(embed=pingembed)
 
 
 Icons = {
@@ -150,76 +119,8 @@ Icons = {
     "few clouds": "http://openweathermap.org/img/wn/02d@2x.png"
 }
 
-'''
-@client.command(aliases=["weather today"])
-async def weather_today(ctx, *, Location):
-    api_key = "WEATHER_API_KEY"
 
-    base_url = "http://api.openweathermap.org/data/2.5/weather?appid=784ead9b61bd1b14ffc70bc90e0fe4de&q"
-
-    city_name = Location
-
-    complete_url = base_url + "appid=" + api_key + "&q=" + city_name
-
-    response = requests.get(complete_url)
-
-    x = response.json()
-
-    if x["cod"] != "404":
-
-        y = x["main"]
-
-        sunrisetd = pyowm.owm.daily.sunrise
-        sunsettd = pyowm.owm.daily.sunset
-
-        morntemp = pyowm.owm.daily.temp.morn
-        daytemp = pyowm.owm.daily.temp.day
-        evetemp = pyowm.owm.daily.temp.eve
-        nighttemp = pyowm.owm.daily.temp.night
-
-        maxtemp = pyowm.owm.daily.temp.max
-        mintemp = pyowm.owm.daily.temp.min
-
-        current_humidity = y["humidity"]
-
-        z = x["weather"]
-
-        weather_description = z[0]["description"]
-
-        sentence = weather_description
-        words = sentence.split(" ")
-        result = ""
-        for word in words:
-            result = result + word.capitalize() + " "
-
-        embed = discord.Embed(
-            colour=discord.Colour.blue(),
-            title=f"Weather in {Location}",
-            description=f"{result}",
-        )
-        try:
-            icon = Icons[weather_description]
-            embed.set_thumbnail(url=icon)
-        except KeyError:
-            pass
-
-        embed.add_field(name="Sunrise", value=f"{sunrisetd}")
-        embed.add_field(name="Sunset", value=f"{sunsettd}")
-        embed.add_field(name="Morning Temperature", value=f"{morntemp}°C")
-        embed.add_field(name="Mid-Day Temperature", value=f"{daytemp}°C")
-        embed.add_field(name="Evening Temperature", value=f"{evetemp}°C")
-        embed.add_field(name="Night Temperature", value=f"{nighttemp}°C")
-        embed.add_field(name="Maximum Temperature", value=f"{maxtemp}°C")
-        embed.add_field(name="Minimum Temperature", value=f"{mintemp}°C")
-        embed.set_footer(text="This System is Powered by openweathermap.org")
-
-        await ctx.send(embed=embed)
-    else:
-        await ctx.send("Location Not Found")
-'''
-
-
-@client.command(aliases=["WEATHER","Weather"])
+@client.command(aliases=["WEATHER", "Weather", "We", "we"])
 async def weather(ctx, *, Location):
     api_key = "WEATHER_API_KEY"
 
@@ -273,12 +174,17 @@ async def weather(ctx, *, Location):
 
         embed.add_field(name="Temperature", value=f"{round(temp_centigrade)}°C/{round(temp_farenheit)}°F")
         embed.add_field(name="Humidity", value=f"{current_humidity}%")
-        embed.add_field(name="Atmospheric Pressure", value=f"{current_pressure}pHa")
+        embed.add_field(name="Atmospheric Pressure", value=f"{current_pressure}hPa")
         embed.set_footer(text="This System is Powered by openweathermap.org")
 
         await ctx.send(embed=embed)
     else:
-        await ctx.send("Location Not Found")
+
+        errorembed = discord.Embed(
+            colour=discord.Colour.red(),
+            description=f"Location not Found"
+        )
+        await ctx.send(embed=errorembed)
 
 
 @client.command(aliases=["8ball"])
@@ -300,26 +206,29 @@ async def _8ball(ctx, *, question):
         "My sources say no",
         "My reply is no"
     ]
-    await ctx.send(f"{random.choice(responses)}")
+
+    _8ballembed = discord.Embed(
+        colour=discord.Colour.dark_magenta(),
+        description=f"{random.choice(responses)}"
+    )
+
+    await ctx.send(embed=_8ballembed)
 
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
-    await ctx.channel.purge(limit=amount + 1)
+    if amount > 200:
+        purgembd = discord.Embed(
+            colour=discord.Colour.red(),
+            title=f"Error!",
+            description=f"You cannot purge over 200 messages."
+        )
+        await ctx.send(embed=purgembd)
+#        await asyncio.sleep(10)
+    else:
+        await ctx.channel.purge(limit=amount + 1)
 
-'''
-@client.command()
-@commands.has_permissions(administrator=True)
-async def setprefix(ctx, prefix):
-    with open("prefixes.json", "r") as f:
-        prefixes = json.load(f)
-
-    prefixes[str(ctx.guild.id)] = prefix
-
-    with open("prefixes.json", "w") as f:
-        json.dump = (prefixes, f)
-'''
 
 async def add_cache(self, search, result, t=0, level=1):
     try:
@@ -342,7 +251,12 @@ async def add_cache(self, search, result, t=0, level=1):
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
-    await ctx.send(f"{member.mention} has been kicked from a server for {reason}")
+    kickembed = discord.Embed(
+        colour=discord.Colour.red(),
+        description=f"{member.mention} has been kicked from the server for {reason}",
+        title="Kick"
+    )
+    await ctx.send(embed=kickembed)
 
 
 @client.command()
@@ -350,12 +264,21 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
-    await ctx.send(f"{member.mention} has been banned from a server for: {reason}")
+    banembed = discord.Embed(
+        colour=discord.Colour.red(),
+        description=f"{member.mention} has been banned from the server for: {reason}",
+        title="Ban"
+    )
+    await ctx.send(embed=banembed)
 
 
 @client.command()
 async def test(ctx):
-    await ctx.send("Bot is running Fine!")
+    testembed = discord.Embed(
+        colour=discord.Colour.dark_magenta(),
+        description="Bot is running fine!"
+    )
+    await ctx.send(embed=testembed)
 
 
 @client.command()
@@ -369,7 +292,12 @@ async def unban(ctx, *, member):
 
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
-            await ctx.send(f"Unbanned {user.mention}")
+            unbanembed = discord.Embed(
+                colour=discord.Colour.green(),
+                title="Unban",
+                descripition=f"{user.mention} has been Unbanned from the server"
+            )
+            await ctx.send(embed=unbanembed)
             return
 
 
@@ -382,23 +310,36 @@ async def gay(ctx, *, member):
         f"Hahaha, Gay {member}",
         f"{member} is the gayest there is no doubt about that"
     ]
-    await ctx.send(f"{random.choice(responses)}")
+    gayembed = discord.Embed(
+        colour=discord.Colour.dark_magenta(),
+        title="Ha gayyyyyy",
+        description=f"{random.choice(responses)}"
+    )
+    await ctx.send(embed=gayembed)
 
 
 @client.command(aliases=["howgay"])
 async def gayrate(ctx, *, member):
     responses = random.randint(0, 100)
-    await ctx.send(f"{member} is {responses}% gay")
+    rateemebed = discord.Embed(
+        colour=discord.Colour.dark_magenta(),
+        description=f"{member} is {responses}% gay"
+    )
+    await ctx.send(embed=rateemebed)
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
-async def spamping(ctx, member: discord.Member, amount):
-    for i in range(int(amount)):
-        await ctx.send(f"{member.mention}")
-    AmountAsInt = int(amount)
-    AmountAsInt = AmountAsInt + 1
-    await ctx.channel.purge(limit=AmountAsInt)
+async def spamping(ctx, member: discord.Member, amount: int):
+    auth_id = 271366212645027841
+    if ctx.message.author.id == auth_id:
+        for i in range(amount):
+            await ctx.send(member.mention)
+            AmountAsInt = int(amount)
+            AmountAsInt = AmountAsInt + 1
+        await ctx.channel.purge(limit=AmountAsInt)
+    else:
+        await ctx.send("You do not have access to this command.")
+
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -420,9 +361,19 @@ async def spam(ctx, text, amount):
 @gay.error
 async def gay_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please use the format: `.gay {Insert User}`")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description="Please use the format: `.gay {Insert User}`",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @spamping.error
@@ -436,57 +387,127 @@ async def spamping_error(ctx, error):
 @gayrate.error
 async def gayrate_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please use the format: `.gayrate {Insert User}` or `.howgay {Insert User}`")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description="Please use the format: `.gayrate {Insert User}` or `.howgay {Insert User}`",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @weather.error
 async def weather_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please use the format: `.weather {Insert Location}`")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description="Please use the format: `.weather {Insert Location}`",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @_8ball.error
 async def _8ball_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please use the format: `.8ball {Insert Question}`")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description="Please use the format: `.8ball {Insert Question}`",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @purge.error
 async def purge_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please specify the amount of messages you want to be purged")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description=f"Please specify the amount of messages you want to purge",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @kick.error
 async def kick_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please specify the user you want to kick")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description=f"Please specify the user you want to Kick",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @ban.error
 async def ban_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please specify the user you want to ban")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description=f"Please specify the user you want to Ban",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @unban.error
 async def unban_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please specify the user you want to unban")
+        MRA = discord.Embed(
+            colour=discord.Colour.red(),
+            description=f"Please specify the user you want to unban",
+            title="Error!"
+        )
+        await ctx.send(embed=MRA)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You do not have permission to run that command.")
+        MP = discord.Embed(
+            colour=discord.Colour.red(),
+            description="You do not have permissions to run this command.",
+            title="Error!"
+        )
+        await ctx.send(embed=MP)
 
 
 @client.event
